@@ -3,11 +3,15 @@ const mongoose = require('mongoose');
 const User = require('../models/users');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const multer = require('multer');
+
+// Package for parsing images and also the destination to store the images uploladed
+const uploads = multer({dest: 'uploads/writers/'})
 require('dotenv').config();
 
 const { JWT_SECRET_KEY } = process.env
 
-const app = express();
+const app = express();  
 
 app.use(express.json());
 
@@ -30,6 +34,7 @@ app.post('/signup', async(req, res) => {
       } else {
           const user = new User ({
             _id: mongoose.Types.ObjectId(),
+            name: req.body.name,
             email: req.body.email,
             username: req.body.username,
             description: req.body.description,
