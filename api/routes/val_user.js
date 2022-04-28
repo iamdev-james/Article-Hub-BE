@@ -34,6 +34,7 @@ app.post('/signup', async(req, res) => {
       } else {
           const user = new User ({
             _id: mongoose.Types.ObjectId(),
+            name: req.body.name,
             email: req.body.email,
             username: req.body.username,
             description: req.body.description,

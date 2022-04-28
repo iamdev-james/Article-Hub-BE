@@ -6,7 +6,7 @@ const app = express();
 
 app.use(express.json());
 
-app.post('/:user/articles', (req, res) => {
+app.post('/:writer/articles', (req, res) => {
   const article = new Article({
     _id: mongoose.Types.ObjectId(),
     name: req.body.name,
@@ -24,20 +24,44 @@ app.post('/:user/articles', (req, res) => {
   })
  })
 
-app.get('/:user/article', () => {
-  res.status(200).json({message: 'This is an article by a particular Author'})
+// Update article details
+app.patch('/:user/article/:id', (req, res) => {
+  const artId = req.params.id;
+  const updateOps = {};
+  for (const ops in req.body) {
+    updateOps[ops.propName] = ops.value;
+  }
+  Article.updateOne({ _id: artId}, { $set: updateOps })
+  .then( result => {
+    res.status(200).json({
+      message: 'Updated successfully',
+      result
+    })
+  })
+  .catch(err => {
+    console.log(err);
+    res.status(500).json({
+      error: 'An error occured, please try again'
+    })
+  })
 })
 
-app.get('/:user/article/:id', () => {
-  res.status(200).json({message: 'This is a particular article'})
-})
-
-app.put('/:user/article/:id', (req, res) => {
-  res.status(200).json({message: 'This is the list of authors'})
-})
-
-app.get('/author/:id', (req, res) => {
-  res.status(200).json({message: 'This is a particular author'})
+// Delete an article
+app.delete('/article/:id', (req, res) => {
+  const artId = req.params.id;
+  Article.deleteOne({ _id: artId })
+  .then(result => {
+    res.status(200).json({
+      message: 'Deleted successfully',
+      result
+    })
+  })
+  .catch( err => {
+    console.log(err)
+    res.status(500).json({
+      error: 'An error occured, please try again'
+    })
+  })
 })
 
 module.exports = app

@@ -10,7 +10,7 @@ app.get('/', (req, res) => {
 })
 
 app.use('/', valuserRoute);
-app.use('/user', userRoute);
-app.use('/writer', writerRoute);
+app.use('/', userRoute);
+app.use('/', writerRoute);
 
 module.exports = app
