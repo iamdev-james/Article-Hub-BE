@@ -24,7 +24,7 @@ app.get('/articles', (req, res) => {
           createdAt: article.createdAt,
           request: {
             type: 'GET',
-            url: `http://localhost:6000/user/article/${article._id}`
+            url: `http://localhost:6000/article/${article._id}`
           }
         }
       })
@@ -45,7 +45,7 @@ app.get('/article/:articleId', (req, res) => {
         Article: article,
         request: {
           type: "GET",
-          url: 'http://localhost:6000/user/articles'
+          url: 'http://localhost:6000/articles'
         }
       })
     } else {
@@ -75,7 +75,7 @@ app.get('/authors', (req, res) => {
             writer: writer,
             request: {
               type: 'GET',
-              url: `http://localhost:6000/user/author/${writer._id}`
+              url: `http://localhost:6000/author/${writer._id}`
             }
           }
         })
@@ -135,7 +135,7 @@ app.get('/:author/articles', (req, res) => {
             article: art,
             request : {
               type: 'GET',
-              url: `http://localhost:6000/user/article/${art._id}`
+              url: `http://localhost:6000/article/${art._id}`
             }
           }
         })
