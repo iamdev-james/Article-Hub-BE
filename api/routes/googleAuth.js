@@ -3,7 +3,6 @@ const session = require('express-session');
 require('dotenv').config();
 const ejs = require('ejs');
 
-
 const app = express();
 
 app.set('view engine', 'ejs');
@@ -21,7 +20,6 @@ app.get('/loginwithgoogle', function(req, res) {
 const passport = require('passport');
 var userProfile;
 
-// const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } = process.env;
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -39,11 +37,13 @@ passport.deserializeUser(function(obj, cb) {
   cb(null, obj);
 });
 
+
+const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } = process.env
+
 /*  Google AUTH  */
- 
+
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
-  const GOOGLE_CLIENT_ID = '705335514771-l92b7rb1saeooj4mg00re7pm4ahu1br9.apps.googleusercontent.com';
-  const GOOGLE_CLIENT_SECRET = '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'
+
 passport.use(new GoogleStrategy({
     clientID: GOOGLE_CLIENT_ID,
     clientSecret: GOOGLE_CLIENT_SECRET,
@@ -58,7 +58,7 @@ passport.use(new GoogleStrategy({
 app.get('/auth/google', 
   passport.authenticate('google', { scope : ['profile', 'email'] }));
  
-app.get('/auth/google/callback', 
+  app.get('/auth/google/callback', 
   passport.authenticate('google', { failureRedirect: '/error' }),
   function(req, res) {
     // Successful authentication, redirect success.
